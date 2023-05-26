@@ -10,6 +10,7 @@ cd /usr/share/nginx/html
 unzip /tmp/frontend.zip
 
 #need to copy config file
+cp /home/centos/robo-shop/roboshop.conf /etc/nginx/default.d/
 echo -e "\e[33mStarting the nginx server\e[0m"
 systemctl enable nginx
 systemctl restart nginx
