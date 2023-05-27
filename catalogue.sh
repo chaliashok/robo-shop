@@ -10,12 +10,12 @@ echo "Adding Application user"
 
 useradd roboshop &>> /tmp/robo_shop.log
 
-rmdir /app
+rm -rf /app
 mkdir /app
 
 curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue.zip &>> /tmp/robo_shop.log
 cd /app
-unzip /tmp/catalogue.zip &>> /tmp/robo_shop.log
+unzip -o /tmp/catalogue.zip &>> /tmp/robo_shop.log
 
 cd /app
 npm install &>> /tmp/robo_shop.log
