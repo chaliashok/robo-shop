@@ -10,6 +10,6 @@ systemctl enable mysqld
 systemctl start mysqld
 echo secure client installation
 mysql_secure_installation --set-root-pass RoboShop@1 &>> /tmp/robo_shop.log
-mysql -uroot -pRoboShop@1 &>> /tmp/robo_shop.log
+#mysql -uroot -pRoboShop@1 &>> /tmp/robo_shop.log
 
 
