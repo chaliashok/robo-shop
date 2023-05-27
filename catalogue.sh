@@ -21,9 +21,8 @@ cd /app
 npm install &>> /tmp/robo_shop.log
 
 cp /home/centos/robo-shop/catalogue.service /etc/systemd/system/catalogue.service &>> /tmp/robo_shop.log
-cp /home/centos/robo-shop/mongo.repo /etc/yum.repos.d/mongo.repo &>> /tmp/robo_shop.log
-
 systemctl daemon-reload &>> /tmp/robo_shop.log
+cp /home/centos/robo-shop/mongo.repo /etc/yum.repos.d/mongo.repo &>> /tmp/robo_shop.log
 
 yum install mongodb-org-shell -y &>> /tmp/robo_shop.log
 
