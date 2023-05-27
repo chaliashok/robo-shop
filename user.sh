@@ -18,7 +18,7 @@ echo -e "\e[34mDownloading the application code to created app directory.\e[0m"
 
 curl -L -o /tmp/user.zip https://roboshop-artifacts.s3.amazonaws.com/user.zip &>> /tmp/robo_shop.log
 cd /app
-unzip /tmp/user.zip &>> /tmp/robo_shop.log
+unzip -o /tmp/user.zip &>> /tmp/robo_shop.log
 
 echo -e "\e[35mDownlaoding the dependencies\e[0m"
 
