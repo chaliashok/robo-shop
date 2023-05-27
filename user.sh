@@ -27,7 +27,7 @@ cd /app &>> /tmp/robo_shop.log
 
 npm install &>> /tmp/robo_shop.log
 
-cd /etc/systemd/system/user.service &>> /tmp/robo_shop.log
+cp /home/centos/robo-shop/user.service /etc/systemd/system/ &>> /tmp/robo_shop.log
 
 echo -e "\e[35mLoading the service\e[0m"
 systemctl daemon-reload &>> /tmp/robo_shop.log
@@ -35,7 +35,7 @@ systemctl daemon-reload &>> /tmp/robo_shop.log
 echo -e "\e[35mStarting the service\e[0m"
 
 
-cp home/centos/robo-shop/mongo.repo /etc/yum.repos.d/mongo.repo &>> /tmp/robo_shop.log
+cp /home/centos/robo-shop/mongo.repo /etc/yum.repos.d/ &>> /tmp/robo_shop.log
 
 echo -e "\e[34minstalling  mongodb-client\e[0m"
 yum install mongodb-org-shell -y &>> /tmp/robo_shop.log
@@ -48,6 +48,6 @@ echo -e "\e[34mStarting the service\e[0m"
 systemctl enable user
 systemctl start user
 
-Echo "\e[32mScript Ended\e[0m"
+echo "\e[32mScript Ended\e[0m"
 
 
