@@ -17,13 +17,10 @@ mkdir /app &>> /tmp/robo_shop.log
 echo -e "\e[34mDownloading the application code to created app directory.\e[0m"
 
 curl -L -o /tmp/user.zip https://roboshop-artifacts.s3.amazonaws.com/user.zip &>> /tmp/robo_shop.log
-
 cd /app
-unzip /tmp/user.zip
+unzip /tmp/user.zip &>> /tmp/robo_shop.log
 
 echo -e "\e[35mDownlaoding the dependencies\e[0m"
-cd /app &>> /tmp/robo_shop.log
-
 
 npm install &>> /tmp/robo_shop.log
 
@@ -41,13 +38,13 @@ echo -e "\e[34minstalling  mongodb-client\e[0m"
 yum install mongodb-org-shell -y &>> /tmp/robo_shop.log
 
 echo -e "\e[34mLoading the schema\e[0m"
-mongo --host mongodb-dev.devopsawschinni.online </app/schema/user.js
+mongo --host mongodb-dev.devopsawschinni.online </app/schema/user.js &>> /tmp/robo_shop.log
 
 echo -e "\e[34mStarting the service\e[0m"
 
 systemctl enable user
 systemctl start user
 
-echo "\e[32mScript Ended\e[0m"
+echo -e "\e[34mScript Ended\e[0m"
 
 
