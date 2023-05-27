@@ -3,7 +3,7 @@ echo script started
 yum module disable mysql -y &>> /tmp/robo_shop.log
 echo installing Mysql community server
 
-cp /home/centos/robo_shop/mysql.repo /etc/yum.repos.d/mysql.repo
+cp /home/centos/robo-shop/mysql.repo /etc/yum.repos.d/mysql.repo
 yum install mysql-community-server -y &>> /tmp/robo_shop.log
 echo enabling and satrting mysqld
 systemctl enable mysqld
