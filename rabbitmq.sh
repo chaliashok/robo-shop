@@ -15,7 +15,7 @@ systemctl start rabbitmq-server  &>> /tmp/robo_shop.log
 
 echo "creating one user for the application."
 
-rabbitmqctl add_user roboshop roboshop123
-rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*"
+rabbitmqctl add_user roboshop roboshop123 &>> /tmp/robo_shop.log
+rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*" &>> /tmp/robo_shop.log
 
 echo "Created User"
