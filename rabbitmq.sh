@@ -10,8 +10,8 @@ echo "Installing rabbitmq"
 yum install rabbitmq-server -y &>> /tmp/robo_shop.log
 
 echo "Enabling and Starting RabbitMQ Service"
-systemctl enable rabbitmq-server
-systemctl start rabbitmq-server
+systemctl enable rabbitmq-server &>> /tmp/robo_shop.log
+systemctl start rabbitmq-server  &>> /tmp/robo_shop.log
 
 echo "creating one user for the application."
 
