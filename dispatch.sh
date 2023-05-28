@@ -10,6 +10,7 @@ yum install golang -y &>> ${log_name}
 echo "Adding User"
 useradd roboshop &>> ${log_name}
 echo "Creating Directory"
+rm -rf ${app_dir} &>> ${log_name}
 mkdir ${app_dir} &>> ${log_name}
 
 echo "Downloading the depedencies"
