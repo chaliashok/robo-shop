@@ -1,3 +1,6 @@
+log_name="/tmp/robo_shop.log"
+app_dir="/app"
+
 status_check(){
   if [ "$1" -eq 0 ];
    then
