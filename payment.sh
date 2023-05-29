@@ -21,7 +21,7 @@ pip3.6 install -r requirements.txt &>> /tmp/robo_shop.log
 
 echo "Settingup SystemD Payment Servic"
 cp /home/centos/robo-shop/payment.service /etc/systemd/system/payment.service &>> /tmp/robo_shop.log
-sed -i -e 's/password/${roboshp_user_password}/g' /etc/systemd/system/payment.service &>> /tmp/robo_shop.log
+sed -i -e 's/password_latest/${roboshp_user_password}/g' /etc/systemd/system/payment.service &>> /tmp/robo_shop.log
 echo "Loading the service"
 systemctl daemon-reload &>> /tmp/robo_shop.log
 
