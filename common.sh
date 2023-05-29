@@ -94,7 +94,7 @@ Application_setup
 status_check $?
 
 echo downlaoding the dependencies
-cd ${app_name}
+cd ${app_dir}
 mvn clean package &>> ${log_name}
 status_check $?
 mv target/${app_name}-1.0.jar ${app_name}.jar &>> ${log_name}
