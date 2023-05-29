@@ -1,5 +1,6 @@
 #!/bin/bash
 echo "Installing python"
+password=$1
 yum install python36 gcc python3-devel -y &>> /tmp/robo_shop.log
 
 echo "Adding user"
@@ -19,7 +20,7 @@ pip3.6 install -r requirements.txt &>> /tmp/robo_shop.log
 
 echo "Settingup SystemD Payment Servic"
 cp /home/centos/robo-shop/payment.service /etc/systemd/system/payment.service &>> /tmp/robo_shop.log
-
+sed -i -e 's/password/roboshop123/' /etc/systemd/system/payment.service &>> /tmp/robo_shop.log
 echo "Loading the service"
 systemctl daemon-reload &>> /tmp/robo_shop.log
 
