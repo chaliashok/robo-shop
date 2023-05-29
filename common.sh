@@ -20,7 +20,7 @@ services_restart()
  }
 
 
-  Application_setup()
+Application_setup()
  { echo "setting up directory"
   rm -rf ${app_dir}
   mkdir ${app_dir} &>> ${log_name}
@@ -31,6 +31,7 @@ services_restart()
   cd ${app_dir} &>> ${log_name}
   unzip /tmp/${app_name}.zip &>> ${log_name}
   }
+
 python (){
 
 yum install python36 gcc python3-devel -y &>> ${log_name}
@@ -62,20 +63,6 @@ services_restart
 status_check $?
 }
 
-maven () {
-
-  app_directory() {
-     echo creating app directory
-      rm -rf ${app_dir}
-    mkdir ${app_dir}
-    status_check $?
-    echo Downlaoding the application code
-    curl -L -o /tmp/shipping.zip https://roboshop-artifacts.s3.amazonaws.com/shipping.zip &>> ${log_name}
-    status_check $?
-    cd ${app_dir}
-    unzip /tmp/shipping.zip &>> ${log_name}
-  }
-
   mysql_install() {
 
     echo Installing mysql
@@ -85,50 +72,43 @@ maven () {
     mysql -h mysql-dev.devopsawschinni.online -uroot -pRoboShop@1 < ${app_dir}/schema/shipping.sql &>> ${log_name}
   }
 
+maven () {
 echo Installing maven
 yum install maven -y &>> ${log_name}
 status_check $?
 
 echo adding application user
-
 user_check(){
 id roboshop &>> ${log_name}
 status_check $?
 
 if [ "$1" -eq 1 ]; then
   echo "success"
-  else
+else
     useradd roboshop &>> ${log_name}
   fi
     }
-    user_check $
+user_check $?
 
-app_directory
+Application_setup
 status_check $?
 
 echo downlaoding the dependencies
+cd ${app_name}
 mvn clean package &>> ${log_name}
 status_check $?
-
-mv target/shipping-1.0.jar shipping.jar &>> ${log_name}
+mv target/${app_name}-1.0.jar ${app_name}.jar &>> ${log_name}
 status_check $?
 
 echo copying the service file
-cp /home/centos/robo-shop/shipping.service /etc/systemd/system/shipping.service &>> ${log_name}
+cp /home/centos/robo-shop/${app_name}.service /etc/systemd/system/${app_name}.service &>> ${log_name}
 
-echo deamon reload
-systemctl daemon-reload &>> ${log_name}
-
-
-echo enabling and stating shipping
-
-systemctl enable shipping &>> ${log_name}
-systemctl start shipping &>> ${log_name}
+services_restart
 
 mysql_install
 
 echo restarting shipping
-systemctl restart shipping &>> ${log_name}
+systemctl restart ${app_name} &>> ${log_name}
 
 }
 
