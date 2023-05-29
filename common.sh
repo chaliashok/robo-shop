@@ -9,14 +9,15 @@ status_check(){
   fi
 }
 services_restart()
-{
+ {
   echo "Loading the service"
  systemctl daemon-reload &>> ${log_name}
 
  echo "enabling and starting the service"
 
  systemctl enable ${app_name} &>> ${log_name}
- systemctl start ${app_name} &>> ${log_name}}
+ systemctl start ${app_name} &>> ${log_name}
+ }
 
 
   Application_setup()
