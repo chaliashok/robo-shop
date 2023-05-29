@@ -10,7 +10,7 @@ Environment=USER_HOST=user-dev.devopsawschinni.online
 Environment=USER_PORT=8080
 Environment=AMQP_HOST=rabbitmq-dev.devopsawschinni.online
 Environment=AMQP_USER=roboshop
-Environment=AMQP_PASS=password
+Environment=AMQP_PASS=password_latest
 
 ExecStart=/usr/local/bin/uwsgi --ini payment.ini
 ExecStop=/bin/kill -9 $MAINPID
