@@ -40,7 +40,7 @@ user_check(){
 id roboshop &>> ${log_name}
 status_check $?
 
-if ["$1" -eq 1]; then
+if [ "$1" -eq 1 ]; then
   echo "success"
   else
     useradd roboshop &>> ${log_name}
@@ -55,7 +55,7 @@ echo "Settingup SystemD ${app_name} Servic"
 cp /home/centos/robo-shop/${app_name}.service /etc/systemd/system/${app_name}.service &>> ${log_name}
 status_check $?
 sed -i -e "s/password/${roboshp_user_password}/g" /etc/systemd/system/${app_name}.service &>> ${log_name}
-statis_check $?
+status_check $?
 services_restart
 status_check $?
 }
