@@ -66,6 +66,7 @@ maven () {
 
   app_directory() {
      echo creating app directory
+      rm -rf ${app_dir}
     mkdir ${app_dir}
     status_check $?
     echo Downlaoding the application code
