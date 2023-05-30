@@ -1,21 +1,27 @@
 #!/bin/bash
+source common.sh
+password=$1
 
 echo "Configure YUM Repos from the script provided by vendor."
-curl -s https://packagecloud.io/install/repositories/rabbitmq/erlang/script.rpm.sh | bash &>> /tmp/robo_shop.log
+curl -s https://packagecloud.io/install/repositories/rabbitmq/erlang/script.rpm.sh | bash &>> ${log_name}
 
 echo "Configure YUM Repos for RabbitMQ."
-curl -s https://packagecloud.io/install/repositories/rabbitmq/rabbitmq-server/script.rpm.sh | bash &>> /tmp/robo_shop.log
+curl -s https://packagecloud.io/install/repositories/rabbitmq/rabbitmq-server/script.rpm.sh | bash &>> ${log_name}
+status_check $?
 
 echo "Installing rabbitmq"
-yum install rabbitmq-server -y &>> /tmp/robo_shop.log
+yum install rabbitmq-server -y &>> ${log_name}
+status_check $?
 
 echo "Enabling and Starting RabbitMQ Service"
-systemctl enable rabbitmq-server &>> /tmp/robo_shop.log
-systemctl start rabbitmq-server  &>> /tmp/robo_shop.log
+services_restart
+status_check $?
 
 echo "creating one user for the application."
 
-rabbitmqctl add_user roboshop roboshop123 &>> /tmp/robo_shop.log
-rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*" &>> /tmp/robo_shop.log
+rabbitmqctl add_user roboshop ${password} &>> ${log_name}
+status_check $?
+rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*" &>> ${log_name}
+status_check $?
 
 echo "Created User"

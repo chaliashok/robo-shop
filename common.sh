@@ -6,6 +6,7 @@ status_check(){
    then
     echo success
    else echo Failure
+   exit 1
   fi
 }
 
@@ -87,3 +88,62 @@ echo restarting shipping
 systemctl restart ${app_name} &>> ${log_name}
 }
 
+nodejs() {
+echo -e "\e[34mSeting up NodeJS repos\e[0m"
+curl -sL https://rpm.nodesource.com/setup_lts.x | bash &>> ${log_name}
+status_check $?
+echo -e "\e[34mInstalling Nodejs\e[0m"
+yum install nodejs -y &>> ${log_name}
+status_check $?
+echo -e "\e[34mAdding Application User\e[0m"
+user_check
+status_check $?
+echo -e "\e[34mSeting up App directory\e[0m"
+Application_setup
+status_check $?
+echo -e "\e[35mDownlaoding the dependencies\e[0m"
+npm install &>> ${log_name}
+status_check $?
+cp /home/centos/robo-shop/${app_name}.service /etc/systemd/system/ &>> ${log_name}
+status_check $?
+echo -e "\e[35mLoading the service\e[0m"
+systemctl daemon-reload &>> ${log_name}
+echo -e "\e[35mStarting the service\e[0m"
+cp /home/centos/robo-shop/mongo.repo /etc/yum.repos.d/ &>> ${log_name}
+status_check $?
+echo -e "\e[34minstalling  mongodb-client\e[0m"
+yum install mongodb-org-shell -y &>> ${log_name}
+status_check $?
+echo -e "\e[34mLoading the schema\e[0m"
+mongo --host mongodb-dev.devopsawschinni.online </app/schema/${app_name}.js &>> ${log_name}
+status_check $?
+services_restart
+status_check $?
+echo -e "\e[34mScript Ended\e[0m"
+}
+
+golang() {
+
+echo "Installing golang"
+yum install golang -y &>> ${log_name}
+status_check $?
+
+echo "Adding User"
+user_check
+echo "Creating Directory"
+rm -rf ${app_dir} &>> ${log_name}
+status_check $?
+Application_setup
+status_check $?
+echo "Lets download the dependencies & build the software."
+go mod init ${app_name} &>> ${log_name}
+go get &>> ${log_name}
+go build &>> ${log_name}
+status_check $?
+
+echo "Copying the service file"
+cp /home/centos/robo-shop/${app_name}.service /etc/systemd/system/${app_name}.service &>> ${log_name}
+status_check $?
+services_restart
+
+}
