@@ -96,7 +96,7 @@ echo -e "\e[34mInstalling Nodejs\e[0m"
 yum install nodejs -y &>> ${log_name}
 status_check $?
 echo -e "\e[34mAdding Application User\e[0m"
-user_check
+user_check $?
 status_check $?
 echo -e "\e[34mSeting up App directory\e[0m"
 Application_setup
