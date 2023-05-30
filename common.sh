@@ -61,6 +61,15 @@ services_restart
 status_check $?
 }
 
+systemd_setup() {
+cp /home/centos/robo-shop/$app_name.service /etc/systemd/system/$app_name.service &>> ${log_name}
+status_check $?
+echo  "Loading the service"
+systemctl daemon-reload &>> ${log_name}
+services_restart
+echo  "Starting the service"
+}
+
 mysql_install ()
 {
  echo Installing mysql
@@ -111,14 +120,7 @@ npm install &>> ${log_name}
 status_check $?
 systemd_setup
 }
-systemd_setup() {
-cp /home/centos/robo-shop/$app_name.service /etc/systemd/system/$app_name.service &>> ${log_name}
-status_check $?
-echo  "Loading the service"
-systemctl daemon-reload &>> ${log_name}
-services_restart
-echo  "Starting the service"
-}
+
 
 mongo_schema_setup() {
 cp /home/centos/robo-shop/mongo.repo /etc/yum.repos.d/mongodb.repo &>> ${log_name}
