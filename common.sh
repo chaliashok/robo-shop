@@ -14,9 +14,7 @@ user_check() {
 id roboshop &>> ${log_name}
 if [ $? -eq 1 ]; then
   echo "success"
-else
-    useradd roboshop &>> ${log_name}
-  fi
+fi
     }
 status_check $?
 
