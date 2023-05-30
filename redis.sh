@@ -6,7 +6,7 @@ echo "Downloading redis remi-release"
 yum install https://rpms.remirepo.net/enterprise/remi-release-8.rpm -y &>>${log_name}
 status_check $?
 echo -e "\e[32m enabling redis 6.2\e[0m"
-yum module enable redis:remi-6.2 -y
+yum module enable redis:remi-6.2 -y &>>${log_name}
 status_check $?
 echo -e "\e[33mInstalling redis \e[0m"
 yum install redis -y &>>${log_name}
