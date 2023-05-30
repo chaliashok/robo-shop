@@ -28,7 +28,8 @@ services_restart()
  }
 
 Application_setup()
- { echo "setting up directory"
+ {
+   echo "setting up directory"
   rm -rf ${app_dir}
   mkdir ${app_dir} &>> ${log_name}
   echo "Downloading the application code to created app directory"
@@ -36,6 +37,8 @@ Application_setup()
   echo "Downloading the dependencies"
   cd ${app_dir} &>> ${log_name}
   unzip /tmp/${app_name}.zip &>> ${log_name}
+  echo "Downlaoding the dependencies"
+  npm install &>> ${log_name}
   }
 
 python (){
@@ -89,34 +92,33 @@ nodejs() {
 echo -e "\e[34mSeting up NodeJS repos\e[0m"
 curl -sL https://rpm.nodesource.com/setup_lts.x | bash &>> ${log_name}
 status_check $?
-echo -e "\e[34mInstalling Nodejs\e[0m"
+echo "Installing Nodejs"
 yum install nodejs -y &>> ${log_name}
 status_check $?
-echo -e "\e[34mAdding Application User\e[0m"
+echo "Adding Application User"
 user_check
 status_check $?
-echo -e "\e[34mSeting up App directory\e[0m"
+echo "Seting up App directory"
 Application_setup
 status_check $?
-echo -e "\e[35mDownlaoding the dependencies\e[0m"
-npm install &>> ${log_name}
+
 status_check $?
 cp /home/centos/robo-shop/${app_name}.service /etc/systemd/system/ &>> ${log_name}
 status_check $?
-echo -e "\e[35mLoading the service\e[0m"
+echo  "Loading the service"
 systemctl daemon-reload &>> ${log_name}
-echo -e "\e[35mStarting the service\e[0m"
+echo  "Starting the service"
 cp /home/centos/robo-shop/mongo.repo /etc/yum.repos.d/ &>> ${log_name}
 status_check $?
-echo -e "\e[34minstalling  mongodb-client\e[0m"
+echo  "minstalling  mongodb-client"
 yum install mongodb-org-shell -y &>> ${log_name}
 status_check $?
-echo -e "\e[34mLoading the schema\e[0m"
+echo "Loading the schema"
 mongo --host mongodb-dev.devopsawschinni.online </app/schema/${app_name}.js &>> ${log_name}
 status_check $?
 services_restart
 status_check $?
-echo -e "\e[34mScript Ended\e[0m"
+echo "Script Ended\"
 }
 
 golang() {
