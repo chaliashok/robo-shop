@@ -111,7 +111,7 @@ echo  "Starting the service"
 cp /home/centos/robo-shop/mongo.repo /etc/yum.repos.d/ &>> ${log_name}
 status_check $?
 echo  "minstalling  mongodb-client"
-yum install mongodb-org-shell -y &>> ${log_name}
+yum install mongodb-org-shell -y & >> ${log_name}
 status_check $?
 echo "Loading the schema"
 mongo --host mongodb-dev.devopsawschinni.online </app/schema/${app_name}.js &>> ${log_name}
