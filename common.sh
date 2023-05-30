@@ -107,6 +107,7 @@ cp /home/centos/robo-shop/${app_name}.service /etc/systemd/system/ &>> ${log_nam
 status_check $?
 echo  "Loading the service"
 systemctl daemon-reload &>> ${log_name}
+services_restart
 echo  "Starting the service"
 cp /home/centos/robo-shop/mongo.repo /etc/yum.repos.d/ &>> ${log_name}
 status_check $?
@@ -115,8 +116,6 @@ yum install mongodb-org-shell -y & >> ${log_name}
 status_check $?
 echo "Loading the schema"
 mongo --host mongodb-dev.devopsawschinni.online </app/schema/${app_name}.js &>> ${log_name}
-status_check $?
-services_restart
 status_check $?
 echo "Script Ended"
 }

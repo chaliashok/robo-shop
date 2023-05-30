@@ -1,8 +1,7 @@
-#!/bin/bash
 source common.sh
 echo "script started"
 echo -e "\e[33mstarted\e[0m"
-cp /home/centos/robo-shop/mongo.repo /etc/yum.repos.d/ &>> ${log_name}
+cp /home/centos/robo-shop/mongo.repo /etc/yum.repos.d/mongo.repo &>> ${log_name}
 status_check $?
 echo -e "\e[33mInstalling MongoDB\e[0m"
 yum install mongodb-org -y >> ${log_name}
