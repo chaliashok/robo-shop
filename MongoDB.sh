@@ -2,7 +2,7 @@
 source common.sh
 echo "script started"
 echo -e "\e[33mstarted\e[0m"
-cp mongo.repo /etc/yum.repos.d/mongo.repo &>> ${log_name}
+cp /home/centos/robo-shop/mongo.repo /etc/yum.repos.d/ &>> ${log_name}
 status_check $?
 echo -e "\e[33mInstalling MongoDB\e[0m"
 yum install mongodb-org -y >> ${log_name}
@@ -12,5 +12,4 @@ systemctl start mongod >> ${log_name}
 sed -i 's/127.0.0.1/0.0.0.0/' /etc/mongod.conf >> ${log_name}
 status_check $?
 systemctl restart mongod
-status_check $?
-echo -e "\e[restart mongodb\e[0m"
+echo "Process completed"
