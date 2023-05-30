@@ -1,6 +1,6 @@
 echo "User creation process started"
 source common.sh
-app_name=user
+export app_name=user
 
 nodejs
 mongo_schema_setup
