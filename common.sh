@@ -1,7 +1,7 @@
 log_name="/tmp/robo_shop.log"
 app_dir="/app"
 
-status_check ()
+status_check()
 {
   if [ "$1" -eq 0 ];
    then
@@ -11,7 +11,7 @@ status_check ()
   fi
 }
 
-user_check ()
+user_check()
 {
 id roboshop &>> ${log_name}
 if [ $? -eq 1 ]; then
@@ -20,7 +20,7 @@ fi
     }
 status_check $?
 
-services_restart ()
+services_restart()
  {
   echo "Loading the service"
  systemctl daemon-reload &>> ${log_name}
@@ -29,7 +29,7 @@ services_restart ()
  systemctl start  ${app_name} &>> ${log_name}
  }
 
-Application_setup ()
+Application_setup()
  {
   echo "setting up directory"
   rm -rf ${app_dir}
@@ -42,7 +42,7 @@ Application_setup ()
 
   }
 
-python ()
+python()
 {
 yum install python36 gcc python3-devel -y &>> ${log_name}
 status_check $?
@@ -70,7 +70,7 @@ services_restart
 echo  "Starting the service"
 }
 
-mysql_install ()
+mysql_install()
 {
  echo Installing mysql
     yum install mysql -y &>> ${log_name}
@@ -78,7 +78,7 @@ mysql_install ()
     mysql -h mysql-dev.devopsawschinni.online -uroot -pRoboShop@1 < /${app_dir}/schema/${app_name}.sql &>> ${log_name}
   }
 
-maven ()
+maven()
 {
 echo Installing maven
 yum install maven -y &>> ${log_name}
@@ -101,7 +101,7 @@ echo restarting shipping
 systemctl restart ${app_name} &>> ${log_name}
 }
 
-nodejs ()
+nodejs()
 {
 echo -e "\e[34mSeting up NodeJS repos\e[0m"
 curl -sL https://rpm.nodesource.com/setup_lts.x | bash &>> ${log_name}
