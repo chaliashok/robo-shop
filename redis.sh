@@ -1,5 +1,6 @@
 #!/bin/bash
 source common.sh
+app_name="redis"
 
 echo "Downloading redis remi-release"
 yum install https://rpms.remirepo.net/enterprise/remi-release-8.rpm -y &>>${log_name}
