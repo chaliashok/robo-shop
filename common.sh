@@ -118,7 +118,7 @@ mongo --host mongodb-dev.devopsawschinni.online </app/schema/${app_name}.js &>> 
 status_check $?
 services_restart
 status_check $?
-echo "Script Ended\"
+echo "Script Ended"
 }
 
 golang() {
@@ -140,7 +140,7 @@ go get &>> ${log_name}
 go build &>> ${log_name}
 status_check $?
 
-echo "Copying the service file"
+echo " Copying the service file "
 cp /home/centos/robo-shop/${app_name}.service /etc/systemd/system/${app_name}.service &>> ${log_name}
 status_check $?
 services_restart
