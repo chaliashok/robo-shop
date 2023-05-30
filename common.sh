@@ -1,7 +1,8 @@
 log_name="/tmp/robo_shop.log"
 app_dir="/app"
 
-status_check(){
+status_check ()
+{
   if [ "$1" -eq 0 ];
    then
     echo success
@@ -10,7 +11,8 @@ status_check(){
   fi
 }
 
-user_check() {
+user_check ()
+{
 id roboshop &>> ${log_name}
 if [ $? -eq 1 ]; then
   echo "success"
@@ -18,7 +20,7 @@ fi
     }
 status_check $?
 
-services_restart()
+services_restart ()
  {
   echo "Loading the service"
  systemctl daemon-reload &>> ${log_name}
@@ -27,9 +29,9 @@ services_restart()
  systemctl start  ${app_name} &>> ${log_name}
  }
 
-Application_setup()
+Application_setup ()
  {
-   echo "setting up directory"
+  echo "setting up directory"
   rm -rf ${app_dir}
   mkdir ${app_dir} &>> ${log_name}
   echo "Downloading the application code to created app directory"
@@ -37,11 +39,11 @@ Application_setup()
   echo "Downloading the dependencies"
   cd ${app_dir} &>> ${log_name}
   unzip /tmp/${app_name}.zip &>> ${log_name}
-  echo "Downlaoding the dependencies"
-  npm install &>> ${log_name}
+
   }
 
-python (){
+python ()
+{
 yum install python36 gcc python3-devel -y &>> ${log_name}
 status_check $?
 echo "Adding user"
@@ -59,14 +61,16 @@ services_restart
 status_check $?
 }
 
-mysql_install() {
+mysql_install ()
+{
  echo Installing mysql
     yum install mysql -y &>> ${log_name}
     echo Loading the schema
     mysql -h mysql-dev.devopsawschinni.online -uroot -pRoboShop@1 < /${app_dir}/schema/${app_name}.sql &>> ${log_name}
   }
 
-maven () {
+maven ()
+{
 echo Installing maven
 yum install maven -y &>> ${log_name}
 status_check $?
@@ -88,7 +92,8 @@ echo restarting shipping
 systemctl restart ${app_name} &>> ${log_name}
 }
 
-nodejs() {
+nodejs ()
+{
 echo -e "\e[34mSeting up NodeJS repos\e[0m"
 curl -sL https://rpm.nodesource.com/setup_lts.x | bash &>> ${log_name}
 status_check $?
@@ -101,15 +106,22 @@ status_check $?
 echo "Seting up App directory"
 Application_setup
 status_check $?
-
+echo "Downlaoding the dependencies"
+npm install &>> ${log_name}
 status_check $?
-cp /home/centos/robo-shop/${app_name}.service /etc/systemd/system/ &>> ${log_name}
+systemd_setup
+}
+systemd_setup() {
+cp /home/centos/robo-shop/$app_name.service /etc/systemd/system/$app_name.service &>> ${log_name}
 status_check $?
 echo  "Loading the service"
 systemctl daemon-reload &>> ${log_name}
 services_restart
 echo  "Starting the service"
-cp /home/centos/robo-shop/mongo.repo /etc/yum.repos.d/ &>> ${log_name}
+}
+
+mongo_schema_setup() {
+cp /home/centos/robo-shop/mongo.repo /etc/yum.repos.d/mongodb.repo &>> ${log_name}
 status_check $?
 echo  "minstalling  mongodb-client"
 yum install mongodb-org-shell -y & >> ${log_name}
@@ -120,7 +132,8 @@ status_check $?
 echo "Script Ended"
 }
 
-golang() {
+golang ()
+{
 
 echo "Installing golang"
 yum install golang -y &>> ${log_name}
@@ -143,5 +156,4 @@ echo " Copying the service file "
 cp /home/centos/robo-shop/${app_name}.service /etc/systemd/system/${app_name}.service &>> ${log_name}
 status_check $?
 services_restart
-
 }
