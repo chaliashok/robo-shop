@@ -10,16 +10,15 @@ status_check(){
   fi
 }
 
-user_check(){
+user_check() {
 id roboshop &>> ${log_name}
-status_check $?
-
-if [ "$1" -eq 1 ]; then
+if [ $? -eq 1 ]; then
   echo "success"
 else
     useradd roboshop &>> ${log_name}
   fi
     }
+status_check $?
 
 services_restart()
  {
@@ -45,7 +44,7 @@ python (){
 yum install python36 gcc python3-devel -y &>> ${log_name}
 status_check $?
 echo "Adding user"
-user_check $?
+user_check
 Application_setup
 status_check $?
 pip3.6 install -r requirements.txt &>> ${log_name}
@@ -71,7 +70,7 @@ echo Installing maven
 yum install maven -y &>> ${log_name}
 status_check $?
 echo adding application user
-user_check $?
+user_check
 Application_setup
 status_check $?
 echo downlaoding the dependencies
@@ -96,7 +95,7 @@ echo -e "\e[34mInstalling Nodejs\e[0m"
 yum install nodejs -y &>> ${log_name}
 status_check $?
 echo -e "\e[34mAdding Application User\e[0m"
-user_check $?
+user_check
 status_check $?
 echo -e "\e[34mSeting up App directory\e[0m"
 Application_setup
