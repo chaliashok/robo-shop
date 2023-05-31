@@ -15,7 +15,10 @@ user_check()
 {
 id roboshop &>> ${log_name}
 if [ $? -eq 1 ]; then
+  useradd roboshop &>> ${log_name}
   echo "success"
+  else
+    echo "user already exists"
 fi
     }
 status_check $?
@@ -121,12 +124,11 @@ status_check $?
 systemd_setup
 }
 
-
 mongo_schema_setup() {
 cp /home/centos/robo-shop/mongo.repo /etc/yum.repos.d/mongodb.repo &>> ${log_name}
 status_check $?
 echo  "minstalling  mongodb-client"
-yum install mongodb-org-shell -y & >> ${log_name}
+yum install mongodb-org-shell -y &>>${log_name}
 status_check $?
 echo "Loading the schema"
 mongo --host mongodb-dev.devopsawschinni.online </app/schema/${app_name}.js &>> ${log_name}
