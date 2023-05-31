@@ -25,7 +25,11 @@ status_check $?
 
 services_restart()
  {
-  echo "Loading the service"
+echo "Settingup SystemD ${app_name} Service"
+cp /home/centos/robo-shop/${app_name}.service /etc/systemd/system/${app_name}.service &>> ${log_name}
+status_check $?
+sed -i -e "s/password/${roboshp_user_password}/g" /etc/systemd/system/${app_name}.service &>> ${log_name}
+echo "Loading the service"
  systemctl daemon-reload &>> ${log_name}
  echo "enabling and starting the service"
  systemctl enable ${app_name} &>> ${log_name}
@@ -55,16 +59,13 @@ Application_setup
 status_check $?
 pip3.6 install -r requirements.txt &>> ${log_name}
 status_check $?
-echo "Settingup SystemD ${app_name} Servic"
-cp /home/centos/robo-shop/${app_name}.service /etc/systemd/system/${app_name}.service &>> ${log_name}
-status_check $?
-sed -i -e "s/password/${roboshp_user_password}/g" /etc/systemd/system/${app_name}.service &>> ${log_name}
 status_check $?
 services_restart
 status_check $?
 }
 
 systemd_setup() {
+echo "service files copying started"
 cp /home/centos/robo-shop/$app_name.service /etc/systemd/system/$app_name.service &>> ${log_name}
 status_check $?
 echo  "Loading the service"
@@ -96,8 +97,8 @@ mvn clean package &>> ${log_name}
 status_check $?
 mv target/${app_name}-1.0.jar ${app_name}.jar &>> ${log_name}
 status_check $?
-echo copying the service file
-cp /home/centos/robo-shop/${app_name}.service /etc/systemd/system/${app_name}.service &>> ${log_name}
+#echo copying the service file
+#cp /home/centos/robo-shop/${app_name}.service /etc/systemd/system/${app_name}.service &>> ${log_name}
 services_restart
 mysql_install
 echo restarting shipping
@@ -156,8 +157,8 @@ go get &>> ${log_name}
 go build &>> ${log_name}
 status_check $?
 
-echo " Copying the service file "
-cp /home/centos/robo-shop/${app_name}.service /etc/systemd/system/${app_name}.service &>> ${log_name}
-status_check $?
+#echo " Copying the service file "
+#cp /home/centos/robo-shop/${app_name}.service /etc/systemd/system/${app_name}.service &>> ${log_name}
 services_restart
+status_check $?
 }
