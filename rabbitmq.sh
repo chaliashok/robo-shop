@@ -1,6 +1,6 @@
 #!/bin/bash
 source common.sh
-app_name=rabbitmq-service
+app_name=rabbitmq-server
 
 echo "Configure YUM Repos from the script provided by vendor."
 curl -s https://packagecloud.io/install/repositories/rabbitmq/erlang/script.rpm.sh | bash &>> ${log_name}
@@ -10,7 +10,7 @@ curl -s https://packagecloud.io/install/repositories/rabbitmq/rabbitmq-server/sc
 status_check $?
 
 echo "Installing rabbitmq"
-yum install rabbitmq-server -y &>> ${log_name}
+yum install $app_name -y &>> ${log_name}
 status_check $?
 
 echo "Enabling and Starting RabbitMQ Service"
