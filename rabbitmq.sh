@@ -1,6 +1,6 @@
 #!/bin/bash
 source common.sh
-password=$1
+component=rabbitmq
 
 echo "Configure YUM Repos from the script provided by vendor."
 curl -s https://packagecloud.io/install/repositories/rabbitmq/erlang/script.rpm.sh | bash &>> ${log_name}
@@ -14,12 +14,13 @@ yum install rabbitmq-server -y &>> ${log_name}
 status_check $?
 
 echo "Enabling and Starting RabbitMQ Service"
-services_restart
+systemctl enable $component-server
+systemctl start  $component-server
 status_check $?
 
 echo "creating one user for the application."
 
-rabbitmqctl add_user roboshop ${password} &>> ${log_name}
+rabbitmqctl add_user roboshop $1 &>> ${log_name}
 status_check $?
 rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*" &>> ${log_name}
 status_check $?
