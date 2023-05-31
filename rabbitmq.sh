@@ -1,6 +1,6 @@
 #!/bin/bash
 source common.sh
-component=rabbitmq-service
+app_name=rabbitmq-service
 
 echo "Configure YUM Repos from the script provided by vendor."
 curl -s https://packagecloud.io/install/repositories/rabbitmq/erlang/script.rpm.sh | bash &>> ${log_name}
