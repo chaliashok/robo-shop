@@ -1,5 +1,5 @@
-log_name="/tmp/robo_shop.log"
-app_dir="/app"
+export log_name="/tmp/robo_shop.log"
+export app_dir="/app"
 
 status_check()
 {
