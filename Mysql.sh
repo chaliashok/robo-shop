@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 source common.sh
-password=$1
+mysql_password=$1
+
+if [ -z "$mysql_password" ]; then
+  echo "mysql_password is missing"
+  exit 1
+fi
+
 app_name="mysqld"
 echo script started
 yum module disable mysql -y &>> ${log_name}

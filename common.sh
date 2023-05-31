@@ -79,7 +79,7 @@ mysql_install()
  echo Installing mysql
     yum install mysql -y &>> ${log_name}
     echo Loading the schema
-    mysql -h mysql-dev.devopsawschinni.online -uroot -pRoboShop@1 < /${app_dir}/schema/${app_name}.sql &>> ${log_name}
+    mysql -h mysql-dev.devopsawschinni.online -uroot -p${mysql_password} < /${app_dir}/schema/${app_name}.sql &>> ${log_name}
   }
 
 maven()
